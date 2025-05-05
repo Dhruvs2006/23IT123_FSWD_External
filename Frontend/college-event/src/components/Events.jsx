@@ -1,105 +1,96 @@
 import React from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-export default function TodoList() {
-  let [todos, setTodos] = useState([
-    { task: "Walk", id: uuidv4(), isDone: false },
+export default function EventList() {
+  let [events, setevents] = useState([
+    { event: "Smile Fiesta", id: uuidv4(), isDone: false },
   ]);
-  let [newTodos, setNewTodos] = useState([""]);
+  let [newevents, setNewevents] = useState([""]);
 
-  let addNewTask = () => {
-    setTodos((prevtodo) => {
-      return [...prevtodo, { task: newTodos, id: uuidv4(), isDone: false }];
+  let addNewEvent = () => {
+    setevents((prevevent) => {
+      return [...prevevent, { event: newevents, id: uuidv4(), isDone: false }];
     });
-    setNewTodos("");
+    setNewevents("");
   };
 
   let updateValue = (event) => {
-    setNewTodos(event.target.value);
+    setNewevents(event.target.value);
   };
 
-  let deleteTask = (id) => {
-    setTodos((prevtodos) => todos.filter((prevtodos) => prevtodos.id != id));
-  };
-
-  let uppercaseAll = () => {
-    setTodos((prevTodo) =>
-      todos.map((prevTodo) => {
-        return { ...prevTodo, task: prevTodo.task.toUpperCase() };
-      })
+  let deleteevent = (id) => {
+    setevents((prevevents) =>
+      events.filter((prevevents) => prevevents.id != id)
     );
   };
 
-  let uppercaseOne = (id) => {
-    setTodos((prevTodo) =>
-      todos.map((prevTodo) => {
-        if (prevTodo.id == id) {
-          return { ...prevTodo, task: prevTodo.task.toUpperCase() };
-        } else {
-          return prevTodo;
-        }
-      })
-    );
-  };
-
-  let taskDone = (id) => {
-    setTodos(
-      todos.map((prevTodo) => {
-        if (prevTodo.id == id) {
+  let eventDone = (id) => {
+    setevents(
+      events.map((prevevent) => {
+        if (prevevent.id == id) {
           return {
-            ...prevTodo,
+            ...prevevent,
             isDone: true,
           };
         } else {
-          return prevTodo;
+          return prevevent;
         }
       })
     );
   };
 
   let allDone = () => {
-    setTodos((prevTodo) =>
-      todos.map((prevTodo) => {
-        return { ...prevTodo, isDone: true };
+    setevents((prevevent) =>
+      events.map((prevevent) => {
+        return { ...prevevent, isDone: true };
       })
     );
   };
 
   return (
-    <>
-      <input
-        placeholder="Enter Your Event"
-        value={newTodos}
-        onChange={updateValue}
-      ></input>
-      <br />
-      <button onClick={addNewTask}>Add Event</button>
-      <br />
-      <br />
-      <br />
-      <hr />
-      <h4>Event List</h4>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <span style={todo.isDone ? { textDecoration: "line-through" } : {}}>
-              {todo.task}
-            </span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button onClick={() => deleteTask(todo.id)}>Delete</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button onClick={() => uppercaseOne(todo.id)}>Uppercase</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button onClick={() => taskDone(todo.id)}>Done</button>
-          </li>
-        ))}
-      </ul>
-      <br />
-      <br />
-      <button onClick={uppercaseAll}>Convert Upprcase</button>
-      <br />
-      <br />
-      <button onClick={allDone}>All Done</button>
-    </>
+    <div className="flex justify-center ">
+      <>
+        <input
+          placeholder="Enter Your Event"
+          value={newevents}
+          onChange={updateValue}
+        ></input>
+        <br />
+        <button onClick={addNewEvent} className="btn">
+          Add Event
+        </button>
+        <br />
+        <br />
+        <br />
+        <hr />
+        <h4>Event List</h4>
+        <ul>
+          {events.map((event) => (
+            <li key={event.id}>
+              <span
+                style={event.isDone ? { textDecoration: "line-through" } : {}}
+              >
+                {event.event}
+              </span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <button onClick={() => deleteevent(event.id)} className="btn">
+                Delete
+              </button>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <button onClick={() => eventDone(event.id)} className="btn">
+                Done
+              </button>
+            </li>
+          ))}
+        </ul>
+        <br />
+        <br />
+        <br />
+        <br />
+        <button onClick={allDone} className="btn">
+          All Done
+        </button>
+      </>
+    </div>
   );
 }
